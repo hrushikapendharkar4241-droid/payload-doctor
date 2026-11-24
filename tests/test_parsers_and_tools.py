@@ -163,3 +163,14 @@ def test_diff_csv_cells():
 def test_cli_human_output_explains_fix():
     r = runner.invoke(app, ["check", str(SAMPLES / "bad" / "850_missing_shipto.edi")])
     assert "Why it matters" in r.stdout and "Fix:" in r.stdout and "X12-014" in r.stdout
+
+
+def test_trace_status_ignores_info_after_failure_and_detects_recovery(tmp_path):
+    log = tmp_path / "a.jsonl"
+    log.write_text(
+        '{"@timestamp":"2026-11-24T10:00:00Z","level":"ERROR","txn_id":"TXN-A","event":"failed","message":"timeout"}\n'
+        '{"@timestamp":"2026-11-24T10:00:01Z","level":"WARNING","txn_id":"TXN-A","event":"incident_opened","message":"INC-1"}\n'
+        '{"@timestamp":"2026-11-24T10:00:00Z","level":"ERROR","txn_id":"TXN-B","event":"delivery_error","message":"timeout"}\n'
+        '{"@timestamp":"2026-11-24T10:00:05Z","level":"INFO","txn_id":"TXN-B","event":"delivered","message":"HTTP 201"}\n')
+    assert summarise(trace("TXN-A", [log]))["status"] == "FAILED"
+    assert summarise(trace("TXN-B", [log]))["status"] == "RECOVERED"

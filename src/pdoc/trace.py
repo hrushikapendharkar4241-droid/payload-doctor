@@ -10,6 +10,7 @@ from pathlib import Path
 TS_RE = re.compile(r"^\[?(\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}:\d{2}(?:[.,]\d+)?(?:Z|[+-]\d{2}:?\d{2})?)\]?\s*")
 LEVEL_RE = re.compile(r"^(DEBUG|INFO|NOTICE|WARN|WARNING|ERROR|CRITICAL|FATAL)\b[:\s-]*", re.I)
 LOG_SUFFIXES = {".log", ".jsonl", ".json", ".txt", ".out"}
+SUCCESS_RE = re.compile(r"\b(processed|delivered|succeeded|success|completed|accepted|stored)\b", re.I)
 
 
 @dataclass
@@ -98,8 +99,15 @@ def summarise(events: list[TraceEvent]) -> dict:
     retries = sum(1 for e in events if re.search(r"\bretry\b\s*(#|\d|attempt|scheduled|:)", e.message, re.I))
     errors = [e for e in events if e.is_error]
     last = events[-1]
-    failed = last.is_error or bool(re.search(r"\b(FAILED|REJECTED)\b", last.message))
-    status = "FAILED" if failed else "OK" if not errors else "RECOVERED"
+    # The outcome is decided by the latest decisive line: an error, or a success marker.
+    # Informational lines after a failure (e.g. "incident opened") do not hide it.
+    decisive = [e for e in events if e.is_error or SUCCESS_RE.search(e.message)]
+    if not errors:
+        status = "OK"
+    elif decisive and decisive[-1].is_error:
+        status = "FAILED"
+    else:
+        status = "RECOVERED"
     first_t, last_t = events[0].when, last.when
     duration = (last_t - first_t).total_seconds() if first_t and last_t else None
     return {
