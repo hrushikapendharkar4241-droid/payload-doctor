@@ -98,7 +98,7 @@ pdoc rules --markdown > docs/rules.md
 
 ```bash
 pip install -e ".[dev]"
-pytest --cov=pdoc          # 77 tests, about 86% coverage
+pytest --cov=pdoc          # 78 tests, about 86% coverage
 ```
 
 Project layout:

@@ -13,6 +13,11 @@ from .models import CheckResult
 from .rules import hit
 
 
+def _days(delta) -> str:
+    n = delta.days
+    return f"{n} day" if n == 1 else f"{n} days"
+
+
 def load_cert(path: Path) -> x509.Certificate:
     data = path.read_bytes()
     if b"-----BEGIN CERTIFICATE-----" in data:
@@ -26,13 +31,13 @@ def check_cert(path: Path, now: datetime | None = None) -> CheckResult:
     start, end = cert.not_valid_before_utc, cert.not_valid_after_utc
     days_left = (end - now).days
     subject = cert.subject.rfc4514_string()
-    status = f"{days_left} days left" if end >= now else f"EXPIRED {(now - end).days} days ago"
+    status = f"{_days(end - now)} left" if end >= now else f"EXPIRED {_days(now - end)} ago"
     summary = f"AS2 certificate {subject}; valid {start:%Y-%m-%d} to {end:%Y-%m-%d} ({status})"
     result = CheckResult(str(path), "as2-certificate", summary)
     if end < now:
-        result.findings.append(hit("AS2-001", f"expired on {end:%Y-%m-%d %H:%M} UTC ({(now - end).days} days ago)"))
+        result.findings.append(hit("AS2-001", f"expired on {end:%Y-%m-%d %H:%M} UTC ({_days(now - end)} ago)"))
     elif days_left <= 30:
-        result.findings.append(hit("AS2-002", f"expires on {end:%Y-%m-%d} ({days_left} days left)"))
+        result.findings.append(hit("AS2-002", f"expires on {end:%Y-%m-%d} ({_days(end - now)} left)"))
     if start > now:
         result.findings.append(hit("AS2-006", f"valid only from {start:%Y-%m-%d %H:%M} UTC"))
     key = cert.public_key()
