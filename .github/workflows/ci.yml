@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: pip install -e ".[dev]"
+      - run: pytest --cov=pdoc --cov-report=term-missing --cov-fail-under=80
+      - name: Smoke test the CLI
+        run: |
+          pdoc check samples/good
+          pdoc rules | tail -1
+          ! pdoc check samples/bad/850_missing_shipto.edi

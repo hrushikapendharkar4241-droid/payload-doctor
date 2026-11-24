@@ -1,0 +1,8 @@
+2026-11-24T12:01:05.000Z INFO  [TXN-2026-000182] processing started; calling order-service
+2026-11-24T12:01:35.010Z ERROR [TXN-2026-000182] downstream_client.py:142 ConnectionTimeout: 30s exceeded
+2026-11-24T12:01:35.020Z WARN  [TXN-2026-000182] retry 1 of 2 scheduled
+2026-11-24T12:02:05.030Z ERROR [TXN-2026-000182] downstream_client.py:142 ConnectionTimeout: 30s exceeded
+2026-11-24T12:02:05.040Z WARN  [TXN-2026-000182] retry 2 of 2 scheduled
+2026-11-24T12:02:35.050Z ERROR [TXN-2026-000182] FAILED after 2 retries: ConnectionTimeout
+2026-11-24T12:01:06.000Z INFO  [TXN-2026-000183] processing started; calling order-service
+2026-11-24T12:01:06.400Z INFO  [TXN-2026-000183] stored; 997 sent to partner

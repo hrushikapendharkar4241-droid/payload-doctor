@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<epcis:EPCISDocument xmlns:epcis="urn:epcglobal:epcis:xsd:1" xmlns:cbvmda="urn:epcglobal:cbv:mda"
+    schemaVersion="1.2" creationDate="2026-11-22T09:20:00.000Z">
+  <EPCISBody>
+    <EventList>
+      <ObjectEvent>
+        <eventTime>2026-11-20T04:30:00.000Z</eventTime>
+        <eventTimeZoneOffset>IST</eventTimeZoneOffset>
+        <epcList><epc>urn:epc:id:sgtin:0614141.107346.SN00001</epc><epc>urn:epc:id:sgtin:0614141.107346.SN00002</epc><epc>urn:epc:id:sgtin:0614141.107346.SN00003</epc><epc>urn:epc:id:sgtin:0614141.107346.SN00004</epc><epc>urn:epc:id:sgtin:0614141.107346.SN00005</epc></epcList>
+        <action>ADD</action>
+        <bizStep>urn:epcglobal:cbv:bizstep:commissioning</bizStep>
+        <disposition>urn:epcglobal:cbv:disp:active</disposition>
+        <readPoint><id>urn:epc:id:sgln:0614141.00001.0</id></readPoint>
+        <bizLocation><id>urn:epc:id:sgln:0614141.00001.0</id></bizLocation>
+        
+      </ObjectEvent>
+      <AggregationEvent>
+        <eventTime>2026-11-21T06:00:00.000Z</eventTime>
+        <eventTimeZoneOffset>IST</eventTimeZoneOffset>
+        <parentID>urn:epc:id:sscc:0614141.1234567890</parentID>
+        <childEPCs><epc>urn:epc:id:sgtin:0614141.107346.SN00001</epc><epc>urn:epc:id:sgtin:0614141.107346.SN00002</epc><epc>urn:epc:id:sgtin:0614141.107346.SN00003</epc><epc>urn:epc:id:sgtin:0614141.107346.SN00004</epc><epc>urn:epc:id:sgtin:0614141.107346.SN00005</epc></childEPCs>
+        <action>ADD</action>
+        <bizStep>urn:epcglobal:cbv:bizstep:packing</bizStep>
+        <disposition>urn:epcglobal:cbv:disp:in_progress</disposition>
+        <bizLocation><id>urn:epc:id:sgln:0614141.00001.0</id></bizLocation>
+      </AggregationEvent>
+      <ObjectEvent>
+        <eventTime>2026-11-22T09:15:00.000Z</eventTime>
+        <eventTimeZoneOffset>IST</eventTimeZoneOffset>
+        <epcList><epc>urn:epc:id:sscc:0614141.1234567890</epc></epcList>
+        <action>OBSERVE</action>
+        <bizStep>urn:epcglobal:cbv:bizstep:shipping</bizStep>
+        <disposition>urn:epcglobal:cbv:disp:in_transit</disposition>
+        <bizLocation><id>urn:epc:id:sgln:0614141.00001.0</id></bizLocation>
+        <bizTransactionList>
+          <bizTransaction type="urn:epcglobal:cbv:btt:po">urn:epcglobal:cbv:bt:0614141000013:4500012</bizTransaction>
+        </bizTransactionList>
+        <extension><sourceList><source type="urn:epcglobal:cbv:sdt:owning_party">urn:epc:id:sgln:0614141.00001.0</source></sourceList><destinationList><destination type="urn:epcglobal:cbv:sdt:owning_party">urn:epc:id:sgln:0614141.00777.0</destination></destinationList></extension>
+      </ObjectEvent>
+    </EventList>
+  </EPCISBody>
+</epcis:EPCISDocument>

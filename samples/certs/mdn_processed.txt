@@ -1,0 +1,6 @@
+Reporting-UA: wholesale02-as2
+Original-Recipient: rfc822; WHOLESALE02
+Final-Recipient: rfc822; WHOLESALE02
+Original-Message-ID: <TXN-2026-000183@acme01>
+Received-Content-MIC: 7v7F++fQaNqf5kAacO3TGaEyXq0=, sha1
+Disposition: automatic-action/MDN-sent-automatically; processed

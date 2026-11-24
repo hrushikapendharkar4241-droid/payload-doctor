@@ -1,0 +1,4 @@
+{"@timestamp":"2026-11-24T12:01:03.120Z","level":"INFO","txn_id":"TXN-2026-000182","event":"received","message":"file PO_182.edi via SFTP partner=ACME01"}
+{"@timestamp":"2026-11-24T12:01:03.480Z","level":"INFO","txn_id":"TXN-2026-000182","event":"validated","message":"X12 850 passed 0 errors"}
+{"@timestamp":"2026-11-24T12:01:04.010Z","level":"INFO","txn_id":"TXN-2026-000183","event":"received","message":"file PO_183.edi via AS2"}
+{"@timestamp":"2026-11-24T12:01:04.900Z","level":"INFO","txn_id":"TXN-2026-000182","event":"transformed","message":"canonical order 4500012 built"}
